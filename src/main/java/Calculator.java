@@ -32,7 +32,7 @@ public class Calculator {
         public boolean equals(Object obj) {
             if (obj==null || !(obj instanceof Leaf)) return false;
 
-            return doubleEquals(((Leaf)obj).value, this.value);
+            return obj==this || doubleEquals(((Leaf)obj).value, this.value);
         }
 
         @Override
@@ -55,6 +55,13 @@ public class Calculator {
         public Operator(TreeNode left, TreeNode right) {
             this.left = left;
             this.right = right;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj==null || !(obj.getClass().equals(this.getClass()))) return false;
+
+            return (this == obj) || ((this.left.equals(((Operator) obj).left)) && this.right.equals(((Operator) obj).right));
         }
     }
 

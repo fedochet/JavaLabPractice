@@ -31,6 +31,39 @@ public class CalculatorTest {
     }
 
     @Test
+    public void operationEqualsTest() {
+        Calculator.Leaf leafOne = new Calculator.Leaf(10);
+        Calculator.Leaf leafTwo = new Calculator.Leaf(20);
+
+        Calculator.PlusOp plusOp = new Calculator.PlusOp(leafOne, leafTwo);
+        Calculator.MinusOp minusOp = new Calculator.MinusOp(leafOne, leafTwo);
+        Calculator.MultOp multOp = new Calculator.MultOp(leafOne, leafTwo);
+        Calculator.DivOp divOp = new Calculator.DivOp(leafOne, leafTwo);
+
+        assertNotEquals(plusOp, null);
+        assertNotEquals(minusOp, null);
+        assertNotEquals(multOp, null);
+        assertNotEquals(divOp, null);
+
+        assertNotEquals(plusOp, minusOp);
+        assertNotEquals(minusOp, multOp);
+        assertNotEquals(multOp, divOp);
+        assertNotEquals(divOp, plusOp);
+
+        assertEquals(plusOp, plusOp);
+        assertEquals(plusOp, new Calculator.PlusOp(leafOne, leafTwo));
+
+        assertEquals(multOp, multOp);
+        assertEquals(multOp, new Calculator.MultOp(leafOne, leafTwo));
+
+        assertEquals(minusOp, minusOp);
+        assertEquals(minusOp, new Calculator.MinusOp(leafOne, leafTwo));
+
+        assertEquals(divOp, divOp);
+        assertEquals(divOp, new Calculator.DivOp(leafOne, leafTwo));
+    }
+
+    @Test
     public void plusOpTest() {
 
         Calculator.TreeNode a = new Calculator.Leaf(10);
@@ -82,13 +115,23 @@ public class CalculatorTest {
         }
     }
 
+    private Calculator.Parser parser = new Calculator.Parser();
+
+
     @Test
     public void parseSimpleNumber() {
-        Calculator.Parser parser = new Calculator.Parser();
         String equation = "5";
 
         Calculator.TreeNode node = parser.parse(equation);
         assertEquals(node, new Calculator.Leaf(5));
+    }
+
+    @Test
+    @Ignore
+    public void parseSimpleSum() {
+        String equation = "5+10";
+
+        assertEquals(parser.parse(equation), new Calculator.PlusOp(new Calculator.Leaf(5), new Calculator.Leaf(10)));
     }
 
 }
