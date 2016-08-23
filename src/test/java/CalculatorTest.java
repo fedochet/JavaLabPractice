@@ -133,5 +133,4 @@ public class CalculatorTest {
 
         assertEquals(parser.parse(equation), new Calculator.PlusOp(new Calculator.Leaf(5), new Calculator.Leaf(10)));
     }
-
 }
