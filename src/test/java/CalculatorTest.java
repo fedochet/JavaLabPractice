@@ -1,5 +1,4 @@
 import exceptions.DivisionByZeroException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -115,22 +114,12 @@ public class CalculatorTest {
         }
     }
 
-    private Calculator.Parser parser = new Calculator.Parser();
-
-
     @Test
-    public void parseSimpleNumber() {
-        String equation = "5";
+    public void calculatorTest() {
+        Calculator calculator = new Calculator(new LexicalParser(), new NotationTransformer(), new TreeCreator());
 
-        Calculator.TreeNode node = parser.parse(equation);
-        assertEquals(node, new Calculator.Leaf(5));
-    }
-
-    @Test
-    @Ignore
-    public void parseSimpleSum() {
-        String equation = "5+10";
-
-        assertEquals(parser.parse(equation), new Calculator.PlusOp(new Calculator.Leaf(5), new Calculator.Leaf(10)));
+        assertEquals(1, calculator.calculate("1"), 0);
+        assertEquals(1, calculator.calculate("(1+2)*3-8"), 0);
+        assertEquals(100, calculator.calculate("10*0/0.1 + 10*10"),0);
     }
 }

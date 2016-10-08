@@ -5,12 +5,18 @@ import exceptions.DivisionByZeroException;
  */
 public class Calculator {
     public static final double EPSILON = 0.0001;
+    private final LexicalParser lexicalParser;
+    private final NotationTransformer transformer;
+    private final TreeCreator treeCreator;
 
-    static class Parser {
+    public Calculator(LexicalParser lexicalParser, NotationTransformer transformer, TreeCreator treeCreator) {
+        this.lexicalParser = lexicalParser;
+        this.transformer = transformer;
+        this.treeCreator = treeCreator;
+    }
 
-        public TreeNode parse(String equation) {
-            return new Leaf(5);
-        }
+    public double calculate(String equation) {
+        return treeCreator.create((transformer.transform(lexicalParser.parse(equation)))).compute();
     }
 
     static abstract class TreeNode {
